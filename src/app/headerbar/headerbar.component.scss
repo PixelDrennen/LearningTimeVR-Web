@@ -1,0 +1,33 @@
+#title{
+    margin-left:1em;
+    margin-right:1em;
+}
+
+.material-symbols-outlined {
+    font-size: 70px;
+    font-weight:300;
+    
+    font-variation-settings:
+        'FILL' 1,
+        'wght' 100,
+        'GRAD' 0,
+        'opsz' 48
+}
+
+#userinfoWrapper .acc {
+    display:flex;
+    width:70px;
+    margin:auto;
+    // background-color: #515151;
+}
+
+.userinfo-link{
+    text-decoration: none;
+    color:black;
+}
+.userinfo-link:hover{
+    color:blue;
+}
+.userinfo-link:active{
+    color:navy;
+}

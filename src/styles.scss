@@ -1,1 +1,8 @@
 /* You can add global styles to this file, and also import other style files */
+@import "~bootstrap/dist/css/bootstrap.css";
+
+.ltvrBox{
+    background:gray;
+    border:solid 1px gray;
+    border-radius: 20px;
+}
