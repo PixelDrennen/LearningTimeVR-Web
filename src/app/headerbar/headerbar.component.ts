@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AuthService } from 'app/services/auth.service';
 
 @Component({
   selector: 'app-headerbar',
@@ -6,5 +7,9 @@ import { Component } from '@angular/core';
   styleUrls: ['./headerbar.component.scss']
 })
 export class HeaderbarComponent {
+  constructor(public authService: AuthService){
 
+  }
+
+  
 }

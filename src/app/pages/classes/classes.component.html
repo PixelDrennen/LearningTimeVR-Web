@@ -1,0 +1,22 @@
+<div id="fluid-content" class="container-fluid mx-auto">
+    <h3>Classes</h3>
+    <p>Manage your classes from here.</p>
+
+    <div class="accordion" id="accordionExample"><!--ngfor loop started for dynamic data -->
+        <div class="accordion-item" *ngFor="let class of lessonModuleService.classes; let i = index">
+            <h2 class="accordion-header" [id]="'heading'+i">
+                <button class="accordion-button" [ngClass]="{ 'collapsed': i != 0 }" type="button"
+                    data-bs-toggle="collapse" [attr.data-bs-target]="'#collapse'+i" aria-expanded="true"
+                    [attr.aria-controls]="'collapse'+i">
+                    {{ class.title }}
+                </button>
+            </h2>
+            <div [id]="'collapse'+i" class="accordion-collapse collapse" [ngClass]="{ 'show': i == 0 }"
+                [attr.aria-labelledby]="'heading'+i" data-bs-parent="#accordionExample">
+                <div class="accordion-body">
+                    {{ class.description }}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -10,16 +10,30 @@ import { FilebuttonComponent } from './filebutton/filebutton.component';
 import { LoginComponent } from './pages/login/login.component';
 import { AccountComponent } from './pages/account/account.component';
 import { environment } from 'environments/environment';
+import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
+import { provideAnalytics, getAnalytics, ScreenTrackingService, UserTrackingService } from '@angular/fire/analytics';
+import { provideAuth, getAuth } from '@angular/fire/auth';
+import { provideFirestore, getFirestore } from '@angular/fire/firestore';
+import { provideFunctions, getFunctions } from '@angular/fire/functions';
+import { provideMessaging, getMessaging } from '@angular/fire/messaging';
+import { providePerformance, getPerformance } from '@angular/fire/performance';
+import { provideStorage, getStorage } from '@angular/fire/storage';
+
+import { FormsModule } from '@angular/forms';
+
 import { AngularFireModule } from '@angular/fire/compat';
-import { AngularFireAuthModule } from '@angular/fire/compat/auth';
-import { AngularFireStorageModule } from '@angular/fire/compat/storage';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
-import { AuthService } from './shared/services/auth.service';
-import { initializeApp,provideFirebaseApp } from '@angular/fire/app';
-import { environment } from '../environments/environment';
-import { provideAuth,getAuth } from '@angular/fire/auth';
-import { provideFirestore,getFirestore } from '@angular/fire/firestore';
-import { provideStorage,getStorage } from '@angular/fire/storage';
+
+import { AuthService } from './services/auth.service';
+
+import { MatDialogModule } from '@angular/material/dialog';
+import { DialogModule } from '@angular/cdk/dialog';
+import { ClassesComponent } from './pages/classes/classes.component';
+import { ClassComponent } from './lessonplans/elements/class/class.component';
+import { LessonModuleComponent } from './lessonplans/elements/lesson-module/lesson-module.component';
+import { ContentClusterComponent } from './lessonplans/elements/content-cluster/content-cluster.component';
+import { ContentComponent } from './lessonplans/elements/content/content.component';
+import { CreateComponent } from './lessonplans/pages/create/create.component';
 
 @NgModule({
   declarations: [
@@ -29,21 +43,33 @@ import { provideStorage,getStorage } from '@angular/fire/storage';
     HeaderbarComponent,
     FilebuttonComponent,
     LoginComponent,
-    AccountComponent
+    AccountComponent,
+    ClassesComponent,
+    ClassComponent,
+    LessonModuleComponent,
+    ContentClusterComponent,
+    ContentComponent,
+    CreateComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    AngularFireModule,
-    AngularFireAuthModule,
-    AngularFireStorageModule,
-    AngularFirestoreModule,
+    DialogModule,
     provideFirebaseApp(() => initializeApp(environment.firebase)),
+    provideAnalytics(() => getAnalytics()),
     provideAuth(() => getAuth()),
     provideFirestore(() => getFirestore()),
-    provideStorage(() => getStorage())
+    provideFunctions(() => getFunctions()),
+    provideMessaging(() => getMessaging()),
+    providePerformance(() => getPerformance()),
+    provideStorage(() => getStorage()),
+    FormsModule,
+    AngularFireModule,
+    AngularFireModule.initializeApp(environment.firebase)
   ],
-  providers: [AuthService],
+  providers: [
+    ScreenTrackingService, UserTrackingService, AuthService
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

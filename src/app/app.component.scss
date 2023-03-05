@@ -1,0 +1,42 @@
+#fluid-content{
+    display:block;
+    width:80%;
+}
+
+#wrapper {
+    width: 100%;
+    background: #f8f9fc;
+    overflow-x: hidden;
+}
+
+#content-wrapper {
+    display: flex !important;
+    background: #b8bfd5;
+    width:100%;
+}
+
+// #wrapper #content-wrapper #content {
+//     padding:10px;
+// }
+
+.flex-column{
+    flex-direction: column!important;
+}
+.d-flex{
+    display: flex !important;
+}
+
+#content{
+    flex: 1 0 auto;
+}
+
+
+div{
+    display:block;
+}
+
+*,
+::after,
+::before {
+    box-sizing: border-box;
+}

@@ -1,6 +1,8 @@
 #title{
+    margin:0;
     margin-left:1em;
-    margin-right:1em;
+    padding:none;
+    height:100%;
 }
 
 .material-symbols-outlined {
@@ -16,7 +18,7 @@
 
 #userinfoWrapper .acc {
     display:flex;
-    width:70px;
+    // width:70px;
     margin:auto;
     // background-color: #515151;
 }

@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { LessonModuleService } from 'app/services/lesson-module.service';
 
 @Component({
   selector: 'app-home',
@@ -6,5 +7,8 @@ import { Component } from '@angular/core';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent {
+  constructor(public lessonModuleService: LessonModuleService){
+
+  }
 
 }

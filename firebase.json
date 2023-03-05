@@ -5,6 +5,7 @@
   },
   "hosting": [
     {
+      "target":"LearningTimeVR",
       "public": "src",
       "ignore": [
         "firebase.json",
