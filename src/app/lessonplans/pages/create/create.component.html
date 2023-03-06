@@ -10,43 +10,100 @@
                 you
                 refresh or leave the page.</p>
             <label for="inputTitle" class="col-form-label">Title</label>
-            <input name="inputTitle" [(ngModel)]="inputTitle"  type="text" id="inputTitle" class="form-control" value="Example Title">
-            
+            <input name="inputTitle" [(ngModel)]="inputTitle" type="text" id="inputTitle" class="form-control"
+                value="Example Title">
+
             <label for="inputDescription" class="form-label">Description</label>
-            <textarea name="inputDescription" [(ngModel)]="inputDescription" rows="5" type="text" id="inputDescription" class="form-control" value="Example Description"></textarea>
+            <textarea name="inputDescription" [(ngModel)]="inputDescription" rows="5" type="text" id="inputDescription"
+                class="form-control" value="Example Description"></textarea>
 
             <div class="spacer"></div>
-            
+
             <div>Lesson Modules</div>
-            <button href="#" class="btn btn-primary">Add New</button>
-            
+            <button (click)="addLessonModule()" class="btn btn-primary">Add New</button>
+            <!-- <div id="lessonModuleList">
+                <div class="lmEntry" *ngFor="let lm of lessonModules">
+                    {{ lm.title }} lessonModule
+                </div>
+            </div> -->
+            <div id="fluid-content" class="mx-auto">
+                <div class="accordion" id="accordionExample"><!--ngfor loop started for dynamic data -->
+                    <div id="scroll-viewport">
+                        <div class="accordion-item" *ngFor="let lm of lessonModules; let i = index">
+                            <h2 class="accordion-header" [id]="'heading'+i">
+                                <button class="accordion-button d-flex" [ngClass]="{ 'collapsed': i != 0 }"
+                                    type="button" data-bs-toggle="collapse" [attr.data-bs-target]="'#collapse'+i"
+                                    aria-expanded="true" [attr.aria-controls]="'collapse'+i" style="max-height:50px;">
+
+                                    <div class="d-flex justify-content-between"
+                                        style="width:100%; margin:0; margin-top:auto; margin-bottom:auto;">
+                                        <p>title</p>
+                                        <p style="width:30%; max-height:60%; overflow:hidden;">description...</p>
+                                        <div class="d-flex" style="margin:0; padding:0; margin-top:auto; margin-bottom:auto;">
+                                            <button class="btn btn-link" href="#" style="margin:10; padding:0;">
+                                                <div class="material-symbols-outlined" style="margin:0; padding:0;">
+                                                    edit
+                                                </div>
+                                            </button>
+                                            <button class="btn btn-link" href="#" style="margin:0; padding:0;">
+                                                <div class="material-symbols-outlined" style="margin:0; padding:0;">
+                                                    delete
+                                                </div>
+                                            </button>
+                                        </div>
+
+                                    </div>
+                                </button>
+                            </h2>
+                            <div [id]="'collapse'+i" class="accordion-collapse collapse" [ngClass]="{ 'show': i == 0 }"
+                                [attr.aria-labelledby]="'heading'+i" data-bs-parent="#accordionExample">
+                                <div class="accordion-body">
+                                    <div class="d-flex mx-auto justify-content-between">
+                                        <div class="container-fluid">
+                                            <p>description</p>
+                                            <div class="container-fluid" style="min-height:50px;">
+                                                meta data
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
             <div class="spacer"></div>
-            
+
             <div>Assign Students</div>
             <button href="#" class="btn btn-primary">Add New</button>
-            
+
             <div class="spacer"></div>
-            
+
             <div>Assign Teachers</div>
             <button href="#" class="btn btn-primary">Add New</button>
-            
+
             <div class="spacer"></div>
-            
+
             <div>Setup Schedule</div>
             <div id="calendar"></div>
 
             <!-- <div class="spacer"></div> -->
             <div class="spacer"></div>
-            
+
             <div>Tags</div>
-            <input name="inputTags" [(ngModel)]="inputTags" type="text" placeholder="Location" class="form-control" value="Example Tag 1, Example Tag 2">
-            
+            <input name="inputTags" [(ngModel)]="inputTags" type="text" placeholder="Location" class="form-control"
+                value="Example Tag 1, Example Tag 2">
+            <p>Separate tags with a comma</p>
             <div>Header</div>
-            <input name="inputHeader" [(ngModel)]="inputHeader"  type="text" placeholder="Header" class="form-control"  value="Example Header">
-            
+            <input name="inputHeader" [(ngModel)]="inputHeader" type="text" placeholder="Header" class="form-control"
+                value="Example Header">
+
             <div>Location ID</div>
-            <input name="inputLocation" [(ngModel)]="inputLocation"  type="text" placeholder="Location" class="form-control" value="Example Location">
-            
+            <input name="inputLocation" [(ngModel)]="inputLocation" type="text" placeholder="Location"
+                class="form-control" value="Example Location">
+
             <button (click)="saveCreatedClass()" class="btn btn-primary">Save Class</button>
         </form>
     </div>

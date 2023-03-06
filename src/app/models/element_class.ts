@@ -2,6 +2,7 @@ import { Reference } from "@angular/fire/compat/firestore";
 import { Student } from './student';
 import { Schedule } from "./schedule";
 import { Teacher } from "./teacher";
+import { metadata_location } from "./metadata/metadata_location";
 
 export interface element_class {
 
@@ -17,7 +18,7 @@ export interface element_class {
     tags:string[];
     previewSprites?: [];
     header?: string;
-    locationID?: string;
+    locationID?: metadata_location;
     dateCreated?: string;
     author?:string;
     uid?:string;

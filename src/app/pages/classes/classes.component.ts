@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { AuthService } from 'app/services/auth.service';
 import { FirestoreService } from 'app/services/firestore.service';
-import { LessonModuleService } from 'app/services/lesson-module.service';
 
 
 @Component({
