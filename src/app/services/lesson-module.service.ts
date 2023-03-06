@@ -15,15 +15,15 @@ export class LessonModuleService {
   snapshot: any;
 
   constructor(public firestore: AngularFirestore) {
-    this.collection_classes = this.firestore.collection('classes');
-    // this.classes = this.collection_classes.valueChanges();
-    this.snapshot = this.firestore.collection('classes').snapshotChanges().pipe(
-      map(changes =>
-        changes.map(c =>
-          ({ id: c.payload.doc.id, ...c.payload.doc.data() })))).subscribe(data => {
-            this.classes = data;
-            console.log(this.classes);
-          });
+    // this.collection_classes = this.firestore.collection('classes');
+    // // this.classes = this.collection_classes.valueChanges();
+    // this.snapshot = this.firestore.collection('classes').snapshotChanges().pipe(
+    //   map(changes =>
+    //     changes.map(c =>
+    //       ({ id: c.payload.doc.id, ...c.payload.doc.data() })))).subscribe(data => {
+    //         this.classes = data;
+    //         // console.log(this.classes);
+    //       });
 
     // this.items = this.firestore.collection('items').valueChanges();
   }

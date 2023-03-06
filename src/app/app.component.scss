@@ -1,6 +1,11 @@
-#fluid-content{
-    display:block;
-    width:80%;
+body {
+    overflow: hidden;
+    max-height: 100vh;
+}
+
+#fluid-content {
+    display: block;
+    width: 80%;
 }
 
 #wrapper {
@@ -12,27 +17,31 @@
 #content-wrapper {
     display: flex !important;
     background: #b8bfd5;
-    width:100%;
+    width: 100%;
+    max-height: 100vh;
+    overflow-y: hidden;
 }
 
 // #wrapper #content-wrapper #content {
 //     padding:10px;
 // }
 
-.flex-column{
-    flex-direction: column!important;
+.flex-column {
+    flex-direction: column !important;
 }
-.d-flex{
+
+.d-flex {
     display: flex !important;
 }
 
-#content{
+#content {
     flex: 1 0 auto;
+    // overflow-y:auto;
 }
 
 
-div{
-    display:block;
+div {
+    display: block;
 }
 
 *,

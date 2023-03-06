@@ -1,22 +1,90 @@
-<div id="fluid-content" class="container-fluid mx-auto">
+<div style="margin:10px; width:auto;" class="d-flex my-auto justify-content-between">
     <h3>Classes</h3>
-    <p>Manage your classes from here.</p>
+    <div class="d-flex">
+        <input id="searchBox" type="text" class="form-control justify-content-right" placeholder="Search...">
+        <button style="text-decoration:none;" class="btn btn-link" href="#">search</button>
+    </div>
+</div>
 
-    <div class="accordion" id="accordionExample"><!--ngfor loop started for dynamic data -->
-        <div class="accordion-item" *ngFor="let class of lessonModuleService.classes; let i = index">
-            <h2 class="accordion-header" [id]="'heading'+i">
-                <button class="accordion-button" [ngClass]="{ 'collapsed': i != 0 }" type="button"
-                    data-bs-toggle="collapse" [attr.data-bs-target]="'#collapse'+i" aria-expanded="true"
-                    [attr.aria-controls]="'collapse'+i">
-                    {{ class.title }}
-                </button>
-            </h2>
-            <div [id]="'collapse'+i" class="accordion-collapse collapse" [ngClass]="{ 'show': i == 0 }"
-                [attr.aria-labelledby]="'heading'+i" data-bs-parent="#accordionExample">
-                <div class="accordion-body">
-                    {{ class.description }}
+<p style="margin:10px;">Manage your classes from here.</p>
+<!-- <div id="scrollblock"></div> -->
+<div id="scrollContainer">
+    <div id="fluid-content" class="mx-auto">
+
+        <div class="accordion" id="accordionExample"><!--ngfor loop started for dynamic data -->
+            <cdk-virtual-scroll-viewport id="scroll-viewport" itemSize="firestoreService.currentUserClasses.length"
+                style="min-height:80vh;">
+                <div class="accordion-item" *cdkVirtualFor="let class of firestoreService.currentUserClasses; let i = index">
+                    <h2 class="accordion-header" [id]="'heading'+i">
+                        <button class="accordion-button" [ngClass]="{ 'collapsed': i != 0 }" type="button"
+                            data-bs-toggle="collapse" [attr.data-bs-target]="'#collapse'+i" aria-expanded="true"
+                            [attr.aria-controls]="'collapse'+i">
+                            <div class="d-flex justify-content-between"
+                                style="width:100%; margin-top:auto; margin-bottom:auto; height:80%;">
+                                <h6>{{ class.title }}</h6>
+                                <p style="width:30%; max-height:60%; overflow:hidden;">{{ trim(class.description) }}...</p>
+                                <div class="d-flex">
+                                    <button class="btn btn-link" href="#"><span class="material-symbols-outlined">
+                                            edit
+                                        </span></button>
+                                    <button (click)="deleteClass(class.id)" style="margin:10px;" class="btn btn-link" href="#"><span
+                                            class="material-symbols-outlined">
+                                            delete
+                                        </span></button>
+                                </div>
+
+                            </div>
+                        </button>
+                    </h2>
+                    <div [id]="'collapse'+i" class="accordion-collapse collapse" [ngClass]="{ 'show': i == 0 }"
+                        [attr.aria-labelledby]="'heading'+i" data-bs-parent="#accordionExample">
+                        <div class="accordion-body">
+                            <div class="d-flex mx-auto justify-content-between">
+                                <div class="container-fluid">
+                                    <p>{{ class.description }}</p>
+                                    <div class="container-fluid" style="min-height:50px;">
+                                        <div id="listLessonModules">
+                                            Lesson Modules will appear here.
+                                        </div>
+                                        <div class="spacer"></div>
+                                        <div id="listStudents">
+                                            Student list will appear here.
+                                        </div>
+                                        <div class="spacer"></div>
+                                        <div id="listTeachers">
+                                            Teacher list will appear here.
+                                        </div>
+                                        <div class="spacer"></div>
+                                        <div id="schedule">
+                                            Schedule will appear here.
+                                        </div>
+                                        <div class="spacer"></div>
+
+                                        <div id="metaData">
+                                            <h4 id="metaDataHeader">Meta data:</h4>
+
+                                            <div id="metaDataBody">
+
+                                                <div id="previewSprites">
+                                                    Preview Sprites list will appear here.
+                                                </div>
+
+                                                Tags: {{ class.tags }} <br />
+                                                Header: {{ class.header }} <br />
+                                                Location ID: {{ class.locationID }} <br />
+                                                Date Created: {{ class.dateCreated }} <br />
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
+            </cdk-virtual-scroll-viewport>
         </div>
     </div>
 </div>
+<!-- <div id="scrollblock"></div> -->

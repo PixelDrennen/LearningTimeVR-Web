@@ -1,4 +1,53 @@
-<form>
-    <div>Title</div>
-    <input type="text" placeholder="title">
-</form>
+<div id="fluid-content" class="container-fluid mx-auto">
+    <div id="scrollblock"></div>
+    <div id="scrollContainer">
+        <h3 style="margin-top:20px;">Create a new Class</h3>
+        <p>A class holds all of the data pertaining to the class data, such as
+            lesson modules and content clusters. Create your class below.</p>
+
+        <form id="classCreatorForm" class="row g-3 align-items-center mx-auto">
+            <p id="pageRefreshWarning"><span id="emphasis">i</span>Data entered in the text fields will not be erased if
+                you
+                refresh or leave the page.</p>
+            <label for="inputTitle" class="col-form-label">Title</label>
+            <input name="inputTitle" [(ngModel)]="inputTitle"  type="text" id="inputTitle" class="form-control" value="Example Title">
+            
+            <label for="inputDescription" class="form-label">Description</label>
+            <textarea name="inputDescription" [(ngModel)]="inputDescription" rows="5" type="text" id="inputDescription" class="form-control" value="Example Description"></textarea>
+
+            <div class="spacer"></div>
+            
+            <div>Lesson Modules</div>
+            <button href="#" class="btn btn-primary">Add New</button>
+            
+            <div class="spacer"></div>
+            
+            <div>Assign Students</div>
+            <button href="#" class="btn btn-primary">Add New</button>
+            
+            <div class="spacer"></div>
+            
+            <div>Assign Teachers</div>
+            <button href="#" class="btn btn-primary">Add New</button>
+            
+            <div class="spacer"></div>
+            
+            <div>Setup Schedule</div>
+            <div id="calendar"></div>
+
+            <!-- <div class="spacer"></div> -->
+            <div class="spacer"></div>
+            
+            <div>Tags</div>
+            <input name="inputTags" [(ngModel)]="inputTags" type="text" placeholder="Location" class="form-control" value="Example Tag 1, Example Tag 2">
+            
+            <div>Header</div>
+            <input name="inputHeader" [(ngModel)]="inputHeader"  type="text" placeholder="Header" class="form-control"  value="Example Header">
+            
+            <div>Location ID</div>
+            <input name="inputLocation" [(ngModel)]="inputLocation"  type="text" placeholder="Location" class="form-control" value="Example Location">
+            
+            <button (click)="saveCreatedClass()" class="btn btn-primary">Save Class</button>
+        </form>
+    </div>
+</div>

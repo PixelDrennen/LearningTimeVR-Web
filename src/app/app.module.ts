@@ -34,6 +34,8 @@ import { LessonModuleComponent } from './lessonplans/elements/lesson-module/less
 import { ContentClusterComponent } from './lessonplans/elements/content-cluster/content-cluster.component';
 import { ContentComponent } from './lessonplans/elements/content/content.component';
 import { CreateComponent } from './lessonplans/pages/create/create.component';
+import { ScrollingModule } from '@angular/cdk/scrolling';
+import { CdkVirtualScrollViewport } from "@angular/cdk/scrolling";
 
 @NgModule({
   declarations: [
@@ -55,6 +57,8 @@ import { CreateComponent } from './lessonplans/pages/create/create.component';
     BrowserModule,
     AppRoutingModule,
     DialogModule,
+    ScrollingModule,
+    CdkVirtualScrollViewport,
     provideFirebaseApp(() => initializeApp(environment.firebase)),
     provideAnalytics(() => getAnalytics()),
     provideAuth(() => getAuth()),
