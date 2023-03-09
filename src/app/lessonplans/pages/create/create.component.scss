@@ -110,8 +110,7 @@
 }
 
 .lm_contentClusters_Container {
-    background-color: rgba(0, 35, 100, 0.6);
-    border: solid 1px rgba(0, 35, 100, 0.6);
+    background-color: none;
     border-radius: 5px;
     min-height: 100px;
 }
@@ -121,6 +120,33 @@
     background-color: rgba(48, 89, 165, 0.6);
     border: solid 1px rgba(48, 89, 165, 0.6);
     border-radius: 5px;
-    color:white;
+    color: white;
     text-align: center;
+    margin-bottom: 5px;
+    ;
+}
+
+#accordionExample .accordion-body {
+    padding: 0;
+    padding-bottom: 10px;
+    padding-top: 10px;
+}
+
+#ccAccordion .accordion-body {
+    padding: 0;
+    padding-bottom: 10px;
+    padding-top: 10px;
+}
+
+#ccAccordion .accordion {
+    margin-left:0; margin-right:0;
+}
+
+
+
+.contentList {
+    background-color: #222222;
+    border: solid 1px #515151;
+    border-radius: 5px;
+    color: white;
 }

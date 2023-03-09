@@ -280,60 +280,96 @@ export class CreateComponent {
   }
 
 
-  cInput_Title: any | null;
-  cInput_Description: any | null;
-  cInput_GetURL: any | null;
-  cInput_SetURL: any | null;
-  cInput_CachedFilePath: any | null;
-  cInput_Position: string | null;
-  cInput_Rotation: string | null;
-  cInput_Scale: string | null;
-  cInput_StringParams: string[] | null;
-  cInput_FloatParams: string[] | null;
-  cInput_AvailableImagesContent: metadata_sprite[] | null;
 
-  cInputContentType: number | null;
-  cInput_Tags: string | null;
-  cInput_Header: string | null;
-  cInput_StartingLocation: metadata_location | null;
-  cInput_PreviewSprite: metadata_sprite | null;
+  // cInput_SetURL: any | null;
+  // cInput_CachedFilePath: any | null;
+  // cInput_Pos_x: string | null;
+  // cInput_Pos_y: string | null;
+  // cInput_Pos_z: string | null;
+  // cInput_Rot_x: string | null;
+  // cInput_Rot_y: string | null;
+  // cInput_Rot_z: string | null;
+  // cInput_Scale_x: string | null;
+  // cInput_Scale_y: string | null;
+  // cInput_Scale_z: string | null;
+  // cInput_StringParams: string[] | null;
+  // cInput_FloatParams: string[] | null;
+  // cInput_AvailableImagesContent: metadata_sprite[] | null;
+  // cInput_StartingLocation: metadata_location | null;
+  // cInput_PreviewSprite: metadata_sprite | null;
 
+  cInput_Title: any;
+  cInput_Description: any;
+  cInput_GetURL: any;
+  cInputContentType: any;
+  cInput_Tags: any;
+  cInput_Header: any;
+  cInput_File: any;
+  ccIndex: number;
+
+  OpenContentEditor(ccIndex: number) {
+    this.ccIndex = ccIndex;
+  }
+  
 
   AddContent() {
-    var content: element_content =
-    {
-      title: this.cInput_Title, description: this.cInput_Description, getURL: this.cInput_GetURL, setURL: this.cInput_SetURL,
-      cachedFilePath: this.cInput_CachedFilePath, position: this.cInput_Position, rotation: this.cInput_Rotation, scale: this.cInput_Scale,
-      stringParameters: this.cInput_StringParams, floatParameters: null, availableImagesContent: this.cInput_AvailableImagesContent,
-      id: "none", dateCreated: new Date().toString(), dateUpdated: new Date().toString(), creatorName: this.authService.user.email,
-      contentType: this.cInputContentType, devDescription: "None", tags: this.cInput_Tags, header: this.cInput_Header, startingLocation: null, previewSprite: null
-    };
+    var content: element_content = {
+      title: this.cInput_Title, description: this.cInput_Description, getURL: this.cInput_GetURL,
+      contentType: 0, tags: this.cInput_Tags, header: this.cInput_Header,
+      setURL: null, cachedFilePath: null, position: null, rotation: null, scale: null,
+      stringParameters: null, floatParameters: null, availableImagesContent: null,
+      id: null, dateCreated: new Date().toString(), dateUpdated: new Date().toString(), creatorName: this.authService.user.email,
+      devDescription: "None", startingLocation: null, previewSprite: null
+    }
 
     //TODO: Add content type with indices that point to (lm,cc)=>content
-//     var lm: element_lessonModule | null;
-//     if (this.lessonModules != null)
-//       if (this.lessonModules[this.lmIndex] != null) {
-//         lm = this.lessonModules[this.lmIndex];
-// 
-//         if (this.lessonModules[this.lmIndex].contentClusters == null)
-//           this.lessonModules[this.lmIndex].contentClusters = [];
-// 
-//         var db_cc: element_contentCluster[] | null;
-//         if (this.lessonModules[this.lmIndex].contentClusters != null) {
-//           db_cc = this.lessonModules[this.lmIndex].contentClusters;
-// 
-//           if (db_cc != null)
-//             db_cc.push(cc);
-//         }
-// 
-//       }
-// 
-//     this.ccformInput_title = "";
-//     this.ccformInput_description = "";
-//     this.ccformInput_header = "";
-//     this.ccformInput_transTo = 0;
-//     this.ccformInput_transFrom = 0;
-//     this.ccformInput_previewSprite = null; // TODO: Fix sprites upload
-//     this.ccformInput_tags = "";
+    var lm: element_lessonModule | null;
+    if (this.lessonModules != null)
+      if (this.lessonModules[this.lmIndex] != null) {
+        lm = this.lessonModules[this.lmIndex];
+
+        if (this.lessonModules[this.lmIndex].contentClusters == null) {
+          this.lessonModules[this.lmIndex].contentClusters = [];
+        }
+
+        var db_cc: element_contentCluster[] | null;
+        if (this.lessonModules[this.lmIndex].contentClusters != null) {
+          db_cc = this.lessonModules[this.lmIndex].contentClusters;
+
+
+
+          if (db_cc != null) {
+            var db_content: element_content[] | null;
+
+            if (db_cc[this.ccIndex].content == null)
+              db_cc[this.ccIndex].content = [];
+
+            if (db_cc[this.ccIndex].content != null) {
+              db_content = db_cc[this.ccIndex].content;
+
+              if (db_content != null)
+                db_content.push(content);
+            }
+          }
+
+        }
+      }
+
+    this.cInput_Title = "";
+    this.cInput_Description = "";
+    this.cInput_GetURL = "";
+    this.cInput_Tags = "";
+    this.cInput_Header = "";
   }
+
+  CloseContentEditorAndCancel() {
+    this.cInput_Title = "";
+    this.cInput_Description = "";
+    this.cInput_GetURL = "";
+    this.cInput_Tags = "";
+    this.cInput_Header = "";
+
+    this.editing = false;
+  }
+
 }
