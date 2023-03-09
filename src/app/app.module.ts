@@ -37,6 +37,7 @@ import { CreateComponent } from './lessonplans/pages/create/create.component';
 import { ScrollingModule } from '@angular/cdk/scrolling';
 import { CdkVirtualScrollViewport } from "@angular/cdk/scrolling";
 import { LessonModuleListComponentComponent } from './dataComponents/lesson-module-list-component/lesson-module-list-component.component';
+import { LessonmoduleModalComponent } from './modals/lessonmodule-modal/lessonmodule-modal.component';
 
 @NgModule({
   declarations: [
@@ -53,7 +54,8 @@ import { LessonModuleListComponentComponent } from './dataComponents/lesson-modu
     ContentClusterComponent,
     ContentComponent,
     CreateComponent,
-    LessonModuleListComponentComponent
+    LessonModuleListComponentComponent,
+    LessonmoduleModalComponent
   ],
   imports: [
     BrowserModule,

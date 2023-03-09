@@ -1,3 +1,4 @@
+<app-lessonmodule-modal></app-lessonmodule-modal>
 <div id="fluid-content" class="container-fluid mx-auto">
     <div id="scrollblock"></div>
     <div id="scrollContainer">
@@ -7,8 +8,7 @@
 
         <form id="classCreatorForm" class="row g-3 align-items-center mx-auto">
             <p id="pageRefreshWarning"><span id="emphasis">i</span>Data entered in the text fields will not be erased if
-                you
-                refresh or leave the page.</p>
+                you refresh or leave the page.</p>
             <label for="inputTitle" class="col-form-label">Title</label>
             <input name="inputTitle" [(ngModel)]="inputTitle" type="text" id="inputTitle" class="form-control"
                 value="Example Title">
@@ -29,7 +29,8 @@
             <div id="fluid-content" class="mx-auto">
                 <div class="accordion" id="accordionExample"><!--ngfor loop started for dynamic data -->
                     <div id="scroll-viewport">
-                        <div class="accordion-item" *ngFor="let lm of lessonModules; let i = index">
+                        <div [attr.id]="'lessonModuleSelectable_' + i" (click)="EditLessonModule(i)" [attr.name]="i"
+                            class="accordion-item" *ngFor="let lm of lessonModules; let i = index">
                             <h2 class="accordion-header" [id]="'heading'+i">
                                 <button class="accordion-button d-flex" [ngClass]="{ 'collapsed': i != 0 }"
                                     type="button" data-bs-toggle="collapse" [attr.data-bs-target]="'#collapse'+i"
@@ -37,10 +38,15 @@
 
                                     <div class="d-flex justify-content-between"
                                         style="width:100%; margin:0; margin-top:auto; margin-bottom:auto;">
-                                        <p>title</p>
+                                        <p>title: {{lm.title}}</p>
                                         <p style="width:30%; max-height:60%; overflow:hidden;">description...</p>
-                                        <div class="d-flex" style="margin:0; padding:0; margin-top:auto; margin-bottom:auto;">
-                                            <button class="btn btn-link" href="#" style="margin:10; padding:0;">
+                                        <div class="d-flex"
+                                            style="margin:0; padding:0; margin-top:auto; margin-bottom:auto; padding-right:10px;">
+                                            <button class="btn btn-link" href="#"
+                                                style="margin:10; padding:0; padding-right:10px;" data-bs-toggle="modal"
+                                                data-bs-target="#lessonModuleModal"
+                                                [attr.data-bs-lessonModuleTitle]="lm.title"
+                                                [attr.data-bs-lessonModuleDescription]="lm.description">
                                                 <div class="material-symbols-outlined" style="margin:0; padding:0;">
                                                     edit
                                                 </div>
@@ -60,7 +66,7 @@
                                 <div class="accordion-body">
                                     <div class="d-flex mx-auto justify-content-between">
                                         <div class="container-fluid">
-                                            <p>description</p>
+                                            <p>Description: {{ lm.description }}</p>
                                             <div class="container-fluid" style="min-height:50px;">
                                                 meta data
                                             </div>
@@ -93,8 +99,8 @@
             <div class="spacer"></div>
 
             <div>Tags</div>
-            <input name="inputTags" [(ngModel)]="inputTags" type="text" placeholder="Location" class="form-control"
-                value="Example Tag 1, Example Tag 2">
+            <input name="inputTags" [(ngModel)]="inputTags" type="text" placeholder="Example Tag 1, Example Tag 2"
+                class="form-control">
             <p>Separate tags with a comma</p>
             <div>Header</div>
             <input name="inputHeader" [(ngModel)]="inputHeader" type="text" placeholder="Header" class="form-control"

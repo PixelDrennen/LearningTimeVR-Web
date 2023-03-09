@@ -17,9 +17,15 @@ import { ScrollingModule } from '@angular/cdk/scrolling';
     '[style.overflow]': '"hidden"'
   }
 })
-export class CreateComponent {
-  constructor(public fsService: FirestoreService, public authService: AuthService) {
 
+export class CreateComponent {
+  lessonModuleEditorModal:any;
+
+  constructor(public fsService: FirestoreService, public authService: AuthService) {
+    this.lessonModuleEditorModal = document.querySelector('#lessonModuleModal');
+    this.lessonModuleEditorModal.addEventListener('show-bs-modal', function(event:Event){
+      var button = event.relatedTarget;
+    })
   }
 
   inputTitle: any = "Example Title";
@@ -30,7 +36,7 @@ export class CreateComponent {
 
   createdClass: element_class = {} as element_class;
 
-  lessonModules?: element_lessonModule[] = [];
+  lessonModules?: element_lessonModule[];
 
   loadClassForEdit(c: element_class) {
     // populate fields
@@ -60,6 +66,10 @@ export class CreateComponent {
     this.createdClass.uid = this.authService.user.uid;
     this.createdClass.author = this.authService.user.displayName;
 
+    this.createdClass.lessonModules = this.lessonModules;
+
+
+
     console.log(this.createdClass);
     this.fsService.addClass(this.createdClass);
   }
@@ -69,4 +79,10 @@ export class CreateComponent {
     if (input == null) return "";
     return input.slice(0, 50).trim();
   }
+
+  EditLessonModule(index: number) {
+
+  }
+
+
 }
