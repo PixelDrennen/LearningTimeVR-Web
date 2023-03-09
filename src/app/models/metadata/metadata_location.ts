@@ -1,9 +1,9 @@
 export interface metadata_location {
-    id?:string;
-    devDescription?:string;
-    dateCreated?:string;
-    dateUpdated?:string;
-    label?:string;
-    sceneName?:string;
-    sceneIndex?:number;
+    id:string|null;
+    devDescription: string | null;
+    dateCreated: string | null;
+    dateUpdated: string | null;
+    label: string | null;
+    sceneName: string | null;
+    sceneIndex: number | null;
 }

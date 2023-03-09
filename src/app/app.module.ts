@@ -19,7 +19,7 @@ import { provideMessaging, getMessaging } from '@angular/fire/messaging';
 import { providePerformance, getPerformance } from '@angular/fire/performance';
 import { provideStorage, getStorage } from '@angular/fire/storage';
 
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { AngularFireModule } from '@angular/fire/compat';
 import { AngularFirestoreModule } from '@angular/fire/compat/firestore';
@@ -40,6 +40,9 @@ import { LessonModuleListComponentComponent } from './dataComponents/lesson-modu
 import { LessonmoduleModalComponent } from './modals/lessonmodule-modal/lessonmodule-modal.component';
 
 import { MaterialModuleModule } from './material-module/material-module.module';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { NgbAlertModule, NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
+
 
 @NgModule({
   declarations: [
@@ -73,9 +76,12 @@ import { MaterialModuleModule } from './material-module/material-module.module';
     provideMessaging(() => getMessaging()),
     providePerformance(() => getPerformance()),
     provideStorage(() => getStorage()),
-    FormsModule,
+    FormsModule, ReactiveFormsModule,
     AngularFireModule,
-    AngularFireModule.initializeApp(environment.firebase)
+    AngularFireModule.initializeApp(environment.firebase),
+    NgbModule,
+    NgbAlertModule,
+    NgbDatepickerModule
   ],
   providers: [
     ScreenTrackingService, UserTrackingService, AuthService

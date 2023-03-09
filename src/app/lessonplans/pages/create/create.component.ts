@@ -12,6 +12,12 @@ import { Schedule } from 'app/models/schedule';
 import { Teacher } from 'app/models/teacher';
 import { metadata_sprite } from 'app/models/metadata/metadata_sprite';
 import { metadata_location } from 'app/models/metadata/metadata_location';
+import { FormBuilder, FormControl, FormGroup, FormsModule, Validators } from '@angular/forms';
+import { NgbAlertModule, NgbDatepickerI18n, NgbDatepickerModule, NgbDateStruct } from '@ng-bootstrap/ng-bootstrap';
+
+import { ModalService } from 'app/services/modal.service';
+import { element_contentCluster } from 'app/models/element_contentCluster';
+import { element_content } from 'app/models/element_content';
 
 @Component({
   selector: 'app-create',
@@ -25,12 +31,23 @@ import { metadata_location } from 'app/models/metadata/metadata_location';
 })
 
 export class CreateComponent {
-  lessonModuleEditorModal:any;
+  lessonModuleEditorModal: any;
 
-  constructor(public fsService: FirestoreService, public authService: AuthService) {
+  constructor(public fsService: FirestoreService, public authService: AuthService, private formBuilder: FormBuilder, public modalService: ModalService) {
+
+
     this.lessonModuleEditorModal = document.querySelector('#lessonModuleModal');
-    
+
   }
+
+  locationGroup = new FormGroup({
+    lmformInput_location: new FormControl(0, Validators.required)
+  });
+  get f() {
+    return this.locationGroup.controls;
+  }
+
+  lessonModules: element_lessonModule[] | null = null;
 
   // element_class
   inputTitle: any | null = "Example Title";
@@ -42,7 +59,6 @@ export class CreateComponent {
   id?: string | null;
   title: string | null;
   description: string | null;
-  lessonModules: element_lessonModule[] | null = null;
 
   students: Reference<Student>[] | null;
   teachers: Reference<Teacher>[] | null;
@@ -56,6 +72,7 @@ export class CreateComponent {
   dateUpdated: string | null;
   author: string | null;
   uid: string | null;
+  cformInput_previewSprite: any;
 
 
 
@@ -71,21 +88,21 @@ export class CreateComponent {
     this.lessonModules = c.lessonModules;
   }
 
-  addLessonModule() {
-    const lm: element_lessonModule =
-    {
-      title: "lessonModule example", description: "example desc", contentClusters: null,
-      creatorName: this.authService.user.email, dateCreated: new Date().toString().toString(), dateUpdated: new Date().toString().toString(),
-      header: "Header example", tags: "Tag1, Tag2", startingLocation: null, previewSprite: null, devDescription: "Dev description"
-    };
-
-
-    if (this.lessonModules == null)
-      this.lessonModules = [];
-    if (lm != null)
-      this.lessonModules.push(lm);
-    console.log(this.lessonModules);
-  }
+  //   addLessonModule() {
+  //     const lm: element_lessonModule =
+  //     {
+  //       title: "lessonModule example", description: "example desc", contentClusters: null,
+  //       creatorName: this.authService.user.email, dateCreated: new Date().toString().toString(), dateUpdated: new Date().toString().toString(),
+  //       header: "Header example", tags: "Tag1, Tag2", startingLocation: null, previewSprite: null, devDescription: "Dev description"
+  //     };
+  // 
+  // 
+  //     if (this.lessonModules == null)
+  //       this.lessonModules = [];
+  //     if (lm != null)
+  //       this.lessonModules.push(lm);
+  //     console.log(this.lessonModules);
+  //   }
 
   saveCreatedClass() {
     this.createdClass.title = this.inputTitle;
@@ -109,15 +126,214 @@ export class CreateComponent {
   }
 
 
-  trim(input: string) {
+  trim(input: string | null) {
     if (input == null) return "";
     return input.slice(0, 50).trim();
   }
 
-  EditLessonModule(index: number) {
-    
+  lmformInput_title: any;
+  lmformInput_description: any;
+  lmformInput_header: any;
+  lmformInput_tags: any;
+  lmformInput_location: any;
+  lmformInput_previewSprite: any;
+
+  AddLessonModule() {
+
+    console.log(this.lmformInput_title);
+
+    console.log(this.locationGroup.value);
+    var x: number | null = null;
+    if (this.locationGroup.value.lmformInput_location != undefined)
+      x = this.locationGroup.value.lmformInput_location;
+
+    var loc: metadata_location | null = { id: "none", devDescription: "none", dateCreated: new Date().toString(), dateUpdated: new Date().toString(), label: "none", sceneName: "none", sceneIndex: x };
+
+    var lm: element_lessonModule =
+    {
+      title: this.lmformInput_title, description: this.lmformInput_description, contentClusters: null,
+      creatorName: this.authService.user.email, dateCreated: new Date().toString(), dateUpdated: new Date().toString(),
+      header: this.lmformInput_header, tags: this.lmformInput_tags, startingLocation: loc, previewSprite: null, devDescription: "None"
+    };
+    console.log(lm);
+
+    if (this.lessonModules == null)
+      this.lessonModules = [];
+    if (lm != null)
+      this.lessonModules.push(lm);
+
+
+    this.lmformInput_title = "";
+    this.lmformInput_description = "";
+    this.lmformInput_header = "";
+    this.lmformInput_previewSprite = null; // TODO: Fix sprites upload
+    this.lmformInput_tags = "";
+    this.locationGroup.patchValue({ lmformInput_location: 0 });
+
   }
 
-  
+  OpenLessonModuleEditorModal(index: number) {
+    this.editing = true;
+    // console.log("Edit");
+    if (this.lessonModules != null) {
+      if (this.lessonModules[index] != null) {
+        var lm: element_lessonModule | null = this.lessonModules[index];
 
+        this.lmformInput_title = lm.title;
+        this.lmformInput_description = lm.description;
+        this.lmformInput_header = lm.header;
+        this.lmformInput_previewSprite = null; // TODO: Fix sprites upload
+        this.lmformInput_tags = lm.tags;
+      }
+    }
+  }
+
+  editing: Boolean = false;
+
+  CommitEditToLessonModule(index: number) {
+    var x: number | null = null;
+    if (this.locationGroup.value.lmformInput_location != undefined)
+      x = this.locationGroup.value.lmformInput_location;
+
+    var loc: metadata_location | null = { id: "none", devDescription: "none", dateCreated: new Date().toString(), dateUpdated: new Date().toString(), label: "none", sceneName: "none", sceneIndex: x };
+
+
+    var lm: element_lessonModule =
+    {
+      title: this.lmformInput_title, description: this.lmformInput_description, contentClusters: null,
+      creatorName: this.authService.user.email, dateCreated: new Date().toString(), dateUpdated: new Date().toString(),
+      header: this.lmformInput_header, tags: this.lmformInput_tags, startingLocation: loc, previewSprite: null, devDescription: "None"
+    };
+
+    if (this.lessonModules != null)
+      this.lessonModules[index] = lm;
+
+    this.editing = false;
+  }
+  CloseEditAndCancel() {
+    this.lmformInput_title = "";
+    this.lmformInput_description = "";
+    this.lmformInput_header = "";
+    this.lmformInput_previewSprite = null; // TODO: Fix sprites upload
+    this.lmformInput_tags = "";
+    this.locationGroup.patchValue({ lmformInput_location: 0 });
+
+    this.editing = false;
+  }
+
+  ccformInput_title: any;
+  ccformInput_description: any;
+  ccformInput_header: any;
+  ccformInput_transFrom: any;
+  ccformInput_transTo: any;
+
+  ccformInput_creatorName: any;
+  ccformInput_tags: any;
+  ccformInput_startingLocation: any;
+  ccformInput_devDescription: any;
+  ccformInput_previewSprite: any;
+  lmIndex: number;
+
+  OpenContentClusterEditor(lmIndex: number) {
+    this.lmIndex = lmIndex;
+  }
+
+  AddContentCluster() {
+    var cc: element_contentCluster =
+    {
+      title: this.ccformInput_title, description: this.ccformInput_description, header: this.ccformInput_header,
+      transitionTo: this.ccformInput_transTo, transitionFrom: this.ccformInput_transFrom, creatorName: this.ccformInput_creatorName,
+      tags: this.ccformInput_tags, startingLocation: this.ccformInput_startingLocation, devDescription: "None", previewSprite: null, content: null,
+    };
+    console.log(cc);
+
+    var lm: element_lessonModule | null;
+    if (this.lessonModules != null)
+      if (this.lessonModules[this.lmIndex] != null) {
+        lm = this.lessonModules[this.lmIndex];
+
+        if (this.lessonModules[this.lmIndex].contentClusters == null)
+          this.lessonModules[this.lmIndex].contentClusters = [];
+
+        var db_cc: element_contentCluster[] | null;
+        if (this.lessonModules[this.lmIndex].contentClusters != null) {
+          db_cc = this.lessonModules[this.lmIndex].contentClusters;
+
+          if (db_cc != null)
+            db_cc.push(cc);
+        }
+
+      }
+
+    this.ccformInput_title = "";
+    this.ccformInput_description = "";
+    this.ccformInput_header = "";
+    this.ccformInput_transTo = 0;
+    this.ccformInput_transFrom = 0;
+    this.ccformInput_previewSprite = null; // TODO: Fix sprites upload
+    this.ccformInput_tags = "";
+    // this.locationGroup.patchValue({ ccformInput_location: 0 });
+  }
+
+  EditContentCluster() {
+
+  }
+
+
+  cInput_Title: any | null;
+  cInput_Description: any | null;
+  cInput_GetURL: any | null;
+  cInput_SetURL: any | null;
+  cInput_CachedFilePath: any | null;
+  cInput_Position: string | null;
+  cInput_Rotation: string | null;
+  cInput_Scale: string | null;
+  cInput_StringParams: string[] | null;
+  cInput_FloatParams: string[] | null;
+  cInput_AvailableImagesContent: metadata_sprite[] | null;
+
+  cInputContentType: number | null;
+  cInput_Tags: string | null;
+  cInput_Header: string | null;
+  cInput_StartingLocation: metadata_location | null;
+  cInput_PreviewSprite: metadata_sprite | null;
+
+
+  AddContent() {
+    var content: element_content =
+    {
+      title: this.cInput_Title, description: this.cInput_Description, getURL: this.cInput_GetURL, setURL: this.cInput_SetURL,
+      cachedFilePath: this.cInput_CachedFilePath, position: this.cInput_Position, rotation: this.cInput_Rotation, scale: this.cInput_Scale,
+      stringParameters: this.cInput_StringParams, floatParameters: null, availableImagesContent: this.cInput_AvailableImagesContent,
+      id: "none", dateCreated: new Date().toString(), dateUpdated: new Date().toString(), creatorName: this.authService.user.email,
+      contentType: this.cInputContentType, devDescription: "None", tags: this.cInput_Tags, header: this.cInput_Header, startingLocation: null, previewSprite: null
+    };
+
+    //TODO: Add content type with indices that point to (lm,cc)=>content
+//     var lm: element_lessonModule | null;
+//     if (this.lessonModules != null)
+//       if (this.lessonModules[this.lmIndex] != null) {
+//         lm = this.lessonModules[this.lmIndex];
+// 
+//         if (this.lessonModules[this.lmIndex].contentClusters == null)
+//           this.lessonModules[this.lmIndex].contentClusters = [];
+// 
+//         var db_cc: element_contentCluster[] | null;
+//         if (this.lessonModules[this.lmIndex].contentClusters != null) {
+//           db_cc = this.lessonModules[this.lmIndex].contentClusters;
+// 
+//           if (db_cc != null)
+//             db_cc.push(cc);
+//         }
+// 
+//       }
+// 
+//     this.ccformInput_title = "";
+//     this.ccformInput_description = "";
+//     this.ccformInput_header = "";
+//     this.ccformInput_transTo = 0;
+//     this.ccformInput_transFrom = 0;
+//     this.ccformInput_previewSprite = null; // TODO: Fix sprites upload
+//     this.ccformInput_tags = "";
+  }
 }

@@ -11,24 +11,26 @@
 <div id="scrollContainer">
     <div id="fluid-content" class="mx-auto">
 
-        <div class="accordion" id="accordionExample"><!--ngfor loop started for dynamic data -->
+        <div class="accordion" id="classAccordion"><!--ngfor loop started for dynamic data -->
             <cdk-virtual-scroll-viewport id="scroll-viewport" itemSize="firestoreService.currentUserClasses.length"
                 style="min-height:80vh;">
-                <div class="accordion-item" *cdkVirtualFor="let class of firestoreService.currentUserClasses; let i = index">
-                    <h2 class="accordion-header" [id]="'heading'+i">
-                        <button class="accordion-button" [ngClass]="{ 'collapsed': i != 0 }" type="button"
-                            data-bs-toggle="collapse" [attr.data-bs-target]="'#collapse'+i" aria-expanded="true"
-                            [attr.aria-controls]="'collapse'+i">
+                <div class="accordion-item"
+                    *cdkVirtualFor="let class of firestoreService.currentUserClasses; let n = index">
+                    <h2 class="accordion-header" [id]="'class-heading'+n">
+                        <button class="accordion-button" [ngClass]="{ 'collapsed': n != 0 }" type="button"
+                            data-bs-toggle="collapse" [attr.data-bs-target]="'#class-collapse'+n" aria-expanded="true"
+                            [attr.aria-controls]="'class-collapse'+n">
                             <div class="d-flex justify-content-between"
                                 style="width:100%; margin-top:auto; margin-bottom:auto; height:80%;">
                                 <h6>{{ class.title }}</h6>
-                                <p style="width:30%; max-height:60%; overflow:hidden;">{{ trim(class.description) }}...</p>
+                                <p style="width:30%; max-height:60%; overflow:hidden;">{{ trim(class.description) }}...
+                                </p>
                                 <div class="d-flex">
                                     <button class="btn btn-link" href="#"><span class="material-symbols-outlined">
                                             edit
                                         </span></button>
-                                    <button (click)="deleteClass(class.id)" style="margin:10px;" class="btn btn-link" href="#"><span
-                                            class="material-symbols-outlined">
+                                    <button (click)="deleteClass(class.id)" style="margin:10px;" class="btn btn-link"
+                                        href="#"><span class="material-symbols-outlined">
                                             delete
                                         </span></button>
                                 </div>
@@ -36,15 +38,244 @@
                             </div>
                         </button>
                     </h2>
-                    <div [id]="'collapse'+i" class="accordion-collapse collapse" [ngClass]="{ 'show': i == 0 }"
-                        [attr.aria-labelledby]="'heading'+i" data-bs-parent="#accordionExample">
+                    <div [id]="'class-collapse'+n" class="accordion-collapse collapse" [ngClass]="{ 'show': n == 0 }"
+                        [attr.aria-labelledby]="'class-heading'+n" data-bs-parent="#classAccordion">
                         <div class="accordion-body">
                             <div class="d-flex mx-auto justify-content-between">
                                 <div class="container-fluid">
                                     <p>{{ class.description }}</p>
                                     <div class="container-fluid" style="min-height:50px;">
                                         <div id="listLessonModules">
-                                            Lesson Modules will appear here.
+
+                                            <!-- Lesson Module Container -->
+                                            <div *ngIf="class.lessonModules != null && class.lessonModules.length > 0">
+                                                <div id="fluid-content" class="mx-auto">
+                                                    <div class="accordion" id="lmAccordion">
+                                                        <!--ngfor loop started for dynamic data -->
+                                                        <div id="scroll-viewport"
+                                                            class="accordion-lessonmodule shadow-lg bg-body rounded">
+                                                            <div class="accordion-item"
+                                                                *ngFor="let lm of class.lessonModules; let i = index">
+                                                                <h2 class="accordion-header" [id]="'lm-heading'+i">
+                                                                    <button class="accordion-button d-flex"
+                                                                        [ngClass]="{ 'collapsed': i != 0 }"
+                                                                        type="button" data-bs-toggle="collapse"
+                                                                        [attr.data-bs-target]="'#lm-collapse'+i"
+                                                                        aria-expanded="true"
+                                                                        [attr.aria-controls]="'lm-collapse'+i"
+                                                                        style="max-height:50px;">
+
+                                                                        <div class="d-flex justify-content-between"
+                                                                            style="width:100%; margin:0; margin-top:auto; margin-bottom:auto;">
+                                                                            <p>title: {{lm.title}}</p>
+                                                                            <p
+                                                                                style="width:30%; max-height:60%; overflow:hidden;">
+                                                                                {{trim(lm.description)}}</p>
+                                                                            <div class="d-flex"
+                                                                                style="margin:0; padding:0; margin-top:auto; margin-bottom:auto; padding-right:10px;">
+                                                                                <button class="btn btn-link" href="#"
+                                                                                    data-bs-target="#lessonModuleModal"
+                                                                                    data-bs-toggle="modal"
+                                                                                    style="margin:10; padding:0; padding-right:10px;">
+                                                                                    <div [attr.data-bs-lessonModuleTitle]="lm.title"
+                                                                                        [attr.data-bs-lessonModuleDescription]="lm.description"
+                                                                                        class="material-symbols-outlined"
+                                                                                        style="margin:0; padding:0;">
+                                                                                        edit
+                                                                                    </div>
+                                                                                </button>
+                                                                                <button class="btn btn-link" href="#"
+                                                                                    style="margin:0; padding:0;">
+                                                                                    <div class="material-symbols-outlined"
+                                                                                        style="margin:0; padding:0;">
+                                                                                        delete
+                                                                                    </div>
+                                                                                </button>
+                                                                            </div>
+
+                                                                        </div>
+                                                                    </button>
+                                                                </h2>
+                                                                <div [id]="'lm-collapse'+i"
+                                                                    class="accordion-collapse collapse"
+                                                                    [ngClass]="{ 'show': i == 0 }"
+                                                                    [attr.aria-labelledby]="'lm-heading'+i"
+                                                                    data-bs-parent="#lmAccordion">
+                                                                    <div class="accordion-body accordion-lessonmodule">
+                                                                        <div
+                                                                            class="d-flex mx-auto justify-content-between">
+                                                                            <div class="container-fluid">
+                                                                                <p>Description: {{ lm.description }}</p>
+
+
+                                                                                <!-- content Clusters -->
+                                                                                <div
+                                                                                    class="lm_contentClusters_Container mx-auto row">
+
+                                                                                    <div id="fluid-content"
+                                                                                        class="mx-auto">
+                                                                                        <div class="accordion"
+                                                                                            id="ccAccordion">
+                                                                                            <!--ngfor loop started for dynamic data -->
+                                                                                            <div id="scroll-viewport">
+                                                                                                <div [attr.id]="'contentClusterSelectable_' + b"
+                                                                                                    [attr.name]="b"
+                                                                                                    class="accordion-item"
+                                                                                                    *ngFor="let cc of lm.contentClusters; let b = index">
+                                                                                                    <h2 class="accordion-header"
+                                                                                                        [id]="'ccheading'+b">
+                                                                                                        <button
+                                                                                                            class="accordion-button d-flex"
+                                                                                                            [ngClass]="{ 'collapsed': b != 0 }"
+                                                                                                            type="button"
+                                                                                                            data-bs-toggle="collapse"
+                                                                                                            [attr.data-bs-target]="'#cccollapse'+b"
+                                                                                                            aria-expanded="true"
+                                                                                                            [attr.aria-controls]="'cccollapse'+b"
+                                                                                                            style="max-height:50px;">
+
+                                                                                                            <div class="d-flex justify-content-between"
+                                                                                                                style="width:100%; margin:0; margin-top:auto; margin-bottom:auto;">
+                                                                                                                <p>title:
+                                                                                                                    {{cc.title}}
+                                                                                                                </p>
+                                                                                                                <p
+                                                                                                                    style="width:30%; max-height:60%; overflow:hidden;">
+                                                                                                                    {{trim(cc.description)}}
+                                                                                                                </p>
+                                                                                                                <div class="d-flex"
+                                                                                                                    style="margin:0; padding:0; margin-top:auto; margin-bottom:auto; padding-right:10px;">
+                                                                                                                    <button
+                                                                                                                        class="btn btn-link"
+                                                                                                                        href="#"
+                                                                                                                        data-bs-target="#lessonModuleModal"
+                                                                                                                        data-bs-toggle="modal"
+                                                                                                                        style="margin:10; padding:0; padding-right:10px;">
+                                                                                                                        <div [attr.data-bs-lessonModuleTitle]="lm.title"
+                                                                                                                            [attr.data-bs-lessonModuleDescription]="lm.description"
+                                                                                                                            class="material-symbols-outlined"
+                                                                                                                            style="margin:0; padding:0;">
+                                                                                                                            edit
+                                                                                                                        </div>
+                                                                                                                    </button>
+                                                                                                                    <button
+                                                                                                                        class="btn btn-link"
+                                                                                                                        href="#"
+                                                                                                                        style="margin:0; padding:0;">
+                                                                                                                        <div class="material-symbols-outlined"
+                                                                                                                            style="margin:0; padding:0;">
+                                                                                                                            delete
+                                                                                                                        </div>
+                                                                                                                    </button>
+                                                                                                                </div>
+
+                                                                                                            </div>
+                                                                                                        </button>
+                                                                                                    </h2>
+                                                                                                    <div [id]="'cccollapse'+b"
+                                                                                                        class="accordion-collapse collapse"
+                                                                                                        [ngClass]="{ 'show': b == 0 }"
+                                                                                                        [attr.aria-labelledby]="'ccheading'+b"
+                                                                                                        data-bs-parent="#ccAccordion">
+                                                                                                        <div
+                                                                                                            class="accordion-body">
+                                                                                                            <div
+                                                                                                                class="d-flex mx-auto justify-content-between">
+                                                                                                                <div
+                                                                                                                    class="container-fluid">
+                                                                                                                    <p>Description:
+                                                                                                                        {{
+                                                                                                                        cc.description
+                                                                                                                        }}
+                                                                                                                    </p>
+
+                                                                                                                    <div
+                                                                                                                        class="mx-auto row">
+
+                                                                                                                    </div>
+
+                                                                                                                    <div
+                                                                                                                        class="metaData">
+                                                                                                                        <h4
+                                                                                                                            class="metaDataHeader">
+                                                                                                                            Meta
+                                                                                                                            Data
+                                                                                                                        </h4>
+                                                                                                                        <div class="metaDataBody container-fluid lmMetaDataView"
+                                                                                                                            style="min-height:50px;">
+                                                                                                                            Creator:
+                                                                                                                            {{
+                                                                                                                            cc.creatorName
+                                                                                                                            }}<br />
+                                                                                                                            Header:
+                                                                                                                            {{
+                                                                                                                            cc.header
+                                                                                                                            }}<br />
+                                                                                                                            Tags:
+                                                                                                                            {{
+                                                                                                                            cc.tags
+                                                                                                                            }}
+                                                                                                                        </div>
+                                                                                                                    </div>
+                                                                                                                </div>
+                                                                                                            </div>
+                                                                                                        </div>
+                                                                                                    </div>
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </div>
+                                                                                    </div>
+
+                                                                                    <div class="lm_contentCluster"
+                                                                                        *ngIf="lm.contentClusters == null || lm.contentClusters.length == 0">
+                                                                                        No content clusters yet
+                                                                                    </div>
+                                                                                    <button class="btn btn-primary"
+                                                                                        href="#"
+                                                                                        data-bs-target="#contentClusterModal"
+                                                                                        data-bs-toggle="modal">Create
+                                                                                        a Content
+                                                                                        Cluster</button>
+                                                                                </div>
+
+
+
+                                                                                <!-- End Content Clusters -->
+
+
+
+                                                                                <div class="spacer"></div>
+
+
+                                                                                <div class="metaData">
+                                                                                    <h4 class="metaDataHeader">Meta Data
+                                                                                    </h4>
+                                                                                    <div class="metaDataBody container-fluid lmMetaDataView"
+                                                                                        style="min-height:50px;">
+                                                                                        Creator: {{ lm.creatorName
+                                                                                        }}<br />
+                                                                                        Created: {{ lm.dateCreated
+                                                                                        }}<br />
+                                                                                        Updated: {{ lm.dateUpdated
+                                                                                        }}<br />
+                                                                                        Header: {{ lm.header }}<br />
+                                                                                        Tags: {{ lm.tags }}
+                                                                                    </div>
+                                                                                </div>
+                                                                            </div>
+                                                                        </div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+
+                                            <div *ngIf="class.lessonModules == null || class.lessonModules.length == 0">
+                                                No Lesson Modules yet.
+                                            </div>
+
                                         </div>
                                         <div class="spacer"></div>
                                         <div id="listStudents">

@@ -48,9 +48,27 @@
 #list_lesson_modules {
     min-height: 100px;
 }
-
 .accordion-body {
     background-color: rgb(0, 0, 200, .2);
+}
+
+.accordion-lessonmodule {
+    background:none;
+    background-color: rgba(22, 22, 63, 0.712);
+    opacity: 1;
+    color:white;
+    overflow: hidden;
+    
+}
+// 
+.accordion-contentcluster {
+    background-color: rgba(220, 220, 255, 0.658);
+    color: black;
+}
+// 
+.accordion-content {
+    background-color: rgba(0, 0, 75, 0.534);
+    color: white;
 }
 
 .spacer {
@@ -58,6 +76,8 @@
     background: none;
     height: 2px;
     width: 100%;
+    margin-top: 30px;
+    margin-bottom: 30px;
 }
 
 #metaData {

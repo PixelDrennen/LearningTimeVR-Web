@@ -2,32 +2,32 @@ import { metadata_location } from "./metadata/metadata_location";
 import { metadata_sprite } from "./metadata/metadata_sprite";
 
 export interface element_content {
-    title?: string;
-    description?: string;
+    title: string | null;
+    description: string | null;
 
     // URLs
-    getURL?: string;
-    setURL?: string;
-    cachedFilePath?: string;
+    getURL: string | null;
+    setURL: string | null;
+    cachedFilePath: string | null;
 
     // transform
-    position?: any;
-    rotation?: any;
-    scale?: any;
+    position: any | null;
+    rotation: any | null;
+    scale: any | null;
 
-    stringParameters?: string[];
-    floatParameters?: number[];
-    availableImagesContent?: metadata_sprite[];
+    stringParameters: string[] | null;
+    floatParameters: number[] | null;
+    availableImagesContent: metadata_sprite[] | null;
 
     // meta data
-    id?: string;
-    dateCreated?: string;
-    dateUpdated?: string;
-    creatorName?: string;
-    contentType?: number;
-    devDescription?: string;
-    tags?: string;
-    header?: string;
-    startingLocation?: metadata_location;
-    previewSprite?: metadata_sprite;
+    id: string | null;
+    dateCreated: string | null;
+    dateUpdated: string | null;
+    creatorName: string | null;
+    contentType: number | null;
+    devDescription: string | null;
+    tags: string | null;
+    header: string | null;
+    startingLocation: metadata_location | null;
+    previewSprite: metadata_sprite | null;
 }
