@@ -3,18 +3,18 @@ import { metadata_location } from "./metadata/metadata_location";
 import { metadata_sprite } from "./metadata/metadata_sprite";
 
 export interface element_lessonModule {
-    title?: string;
-    description?: string;
+    title: string | null;
+    description: string | null;
     
-    contentClusters?: element_contentCluster[];
+    contentClusters: element_contentCluster[] | null;
     
     // meta data
-    creatorName?: string;
-    dateCreated?: string;
-    dateUpdated?: string;
-    header?: string;
-    tags?: string[];
-    startingLocation?: metadata_location;
-    previewSprite?: metadata_sprite;
-    devDescription?: string;
+    creatorName: string | null;
+    dateCreated: string | null;
+    dateUpdated: string | null;
+    header: string | null;
+    tags: string | null;
+    startingLocation: metadata_location | null;
+    previewSprite: metadata_sprite | null;
+    devDescription: string | null;
 }

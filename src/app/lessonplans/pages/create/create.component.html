@@ -1,4 +1,4 @@
-<app-lessonmodule-modal></app-lessonmodule-modal>
+<!-- <app-lessonmodule-modal></app-lessonmodule-modal> -->
 <div id="fluid-content" class="container-fluid mx-auto">
     <div id="scrollblock"></div>
     <div id="scrollContainer">
@@ -20,12 +20,11 @@
             <div class="spacer"></div>
 
             <div>Lesson Modules</div>
-            <button (click)="addLessonModule()" class="btn btn-primary">Add New</button>
-            <!-- <div id="lessonModuleList">
-                <div class="lmEntry" *ngFor="let lm of lessonModules">
-                    {{ lm.title }} lessonModule
-                </div>
-            </div> -->
+            <!-- (click)="addLessonModule()" -->
+            <button href="#" class="btn btn-primary" data-bs-target="#lessonModuleModal" data-bs-toggle="modal">Add
+                New</button>
+
+            <!-- Lesson Module Container -->
             <div id="fluid-content" class="mx-auto">
                 <div class="accordion" id="accordionExample"><!--ngfor loop started for dynamic data -->
                     <div id="scroll-viewport">
@@ -43,11 +42,10 @@
                                         <div class="d-flex"
                                             style="margin:0; padding:0; margin-top:auto; margin-bottom:auto; padding-right:10px;">
                                             <button class="btn btn-link" href="#"
-                                                style="margin:10; padding:0; padding-right:10px;" data-bs-toggle="modal"
-                                                data-bs-target="#lessonModuleModal"
-                                                [attr.data-bs-lessonModuleTitle]="lm.title"
-                                                [attr.data-bs-lessonModuleDescription]="lm.description">
-                                                <div class="material-symbols-outlined" style="margin:0; padding:0;">
+                                                style="margin:10; padding:0; padding-right:10px;">
+                                                <div [attr.data-bs-lessonModuleTitle]="lm.title"
+                                                    [attr.data-bs-lessonModuleDescription]="lm.description"
+                                                    class="material-symbols-outlined" style="margin:0; padding:0;">
                                                     edit
                                                 </div>
                                             </button>
@@ -112,5 +110,49 @@
 
             <button (click)="saveCreatedClass()" class="btn btn-primary">Save Class</button>
         </form>
+    </div>
+</div>
+
+<!-- Lesson Module Editor Modal -->
+<div class="modal fade" id="lessonModuleModal" tabindex="-1" aria-labelledby="lessonModuleModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content" style="height:90vh;">
+            <div class="modal-header">
+                <h5 class="modal-title" id="lessonModuleModalLabel">Add New Lesson Module</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+
+                <input type="input" class="form-control" placeholder="Title" name="title" id="input_LM_Title">
+                <input type="input" class="form-control" placeholder="Header" name="header" id="input_LM_Header">
+                <input type="input" class="form-control" placeholder="Tag1, Tag2, etc." name="tags" id="input_LM_Tags">
+
+                <div class="btn-group-vertical" role="group" aria-label="Basic example">
+                    <button type="button" class="btn btn-primary">Left</button>
+                    <button type="button" class="btn btn-primary">Middle</button>
+                    <button type="button" class="btn btn-primary">Right</button>
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                <button type="button" class="btn btn-primary">Add</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="toast-container">
+    <div id="toast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+            <img src="..." class="rounded me-2" alt="...">
+            <strong class="me-auto">Bootstrap</strong>
+            <small class="text-muted">2 seconds ago</small>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">
+            Heads up, toasts will stack automatically
+        </div>
     </div>
 </div>

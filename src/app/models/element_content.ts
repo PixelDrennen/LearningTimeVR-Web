@@ -24,10 +24,10 @@ export interface element_content {
     dateCreated?: string;
     dateUpdated?: string;
     creatorName?: string;
-    contentType?: any;
-    devDscription?: string;
-    tags?: string[];
+    contentType?: number;
+    devDescription?: string;
+    tags?: string;
     header?: string;
     startingLocation?: metadata_location;
-    previewSprite?: string;
+    previewSprite?: metadata_sprite;
 }

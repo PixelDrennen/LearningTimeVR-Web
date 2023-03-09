@@ -39,6 +39,8 @@ import { CdkVirtualScrollViewport } from "@angular/cdk/scrolling";
 import { LessonModuleListComponentComponent } from './dataComponents/lesson-module-list-component/lesson-module-list-component.component';
 import { LessonmoduleModalComponent } from './modals/lessonmodule-modal/lessonmodule-modal.component';
 
+import { MaterialModuleModule } from './material-module/material-module.module';
+
 @NgModule({
   declarations: [
     AppComponent,

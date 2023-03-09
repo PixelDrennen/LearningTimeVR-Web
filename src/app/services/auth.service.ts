@@ -15,6 +15,7 @@ export class AuthService {
   public user: User;
 
   constructor(public fireAuth: AngularFireAuth) { this.authStatusListener(); }
+  
 
   authStatusListener() {
     this.fireAuth.authState.subscribe(res => {
@@ -29,7 +30,7 @@ export class AuthService {
   }
 
   onLogin() {
-    console.log("User currently logged in: " + this.loggedIn);
+    // console.log("User currently logged in: " + this.loggedIn);
     this.user = this.authState as User;
     console.log("User currently logged in: " + this.user.uid);
     // this.fService.getClassesForCurrentUser();
