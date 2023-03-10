@@ -4,7 +4,15 @@
         <h3>Welcome</h3>
         <p>This portal is where you will design and manage your classes and lesson plans.</p>
         <p>To begin, select an option from the lefthand navigation bar.</p>
+        <br />
 
+
+        <form (ngSubmit)="Upload()" [formGroup]="uploadForm">
+
+            <label class="form-label" for="input_fileToUpload">Test out this upload button</label>
+            <input formControlName="input_file" (change)="onFileSelected($event)" type="file" class="form-control" id="input_fileToUpload" name="input_fileToUpload" >
+            <button class="btn btn-primary" type="submit" >Upload</button>
+        </form>
         <!-- <div *ngFor="let _class of lessonModuleService.classes; let i = index;">
             <h3>{{ _class.title }}</h3>
         </div> -->

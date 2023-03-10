@@ -18,6 +18,8 @@ import { NgbAlertModule, NgbDatepickerI18n, NgbDatepickerModule, NgbDateStruct }
 import { ModalService } from 'app/services/modal.service';
 import { element_contentCluster } from 'app/models/element_contentCluster';
 import { element_content } from 'app/models/element_content';
+import { UploadService } from 'app/uploads/shared/upload.service';
+import { async } from 'rxjs';
 
 @Component({
   selector: 'app-create',
@@ -33,7 +35,7 @@ import { element_content } from 'app/models/element_content';
 export class CreateComponent {
   lessonModuleEditorModal: any;
 
-  constructor(public fsService: FirestoreService, public authService: AuthService, private formBuilder: FormBuilder, public modalService: ModalService) {
+  constructor(public fsService: FirestoreService, public authService: AuthService, private formBuilder: FormBuilder, public modalService: ModalService, public uploadService: UploadService) {
 
 
     this.lessonModuleEditorModal = document.querySelector('#lessonModuleModal');
@@ -121,6 +123,7 @@ export class CreateComponent {
 
     this.createdClass.lessonModules = this.lessonModules;
 
+    this.createdClass.jsonRepresentation = JSON.stringify(this.createdClass);
     console.log(this.createdClass);
     this.fsService.addClass(this.createdClass);
   }
@@ -310,56 +313,71 @@ export class CreateComponent {
   OpenContentEditor(ccIndex: number) {
     this.ccIndex = ccIndex;
   }
-  
 
-  AddContent() {
-    var content: element_content = {
-      title: this.cInput_Title, description: this.cInput_Description, getURL: this.cInput_GetURL,
-      contentType: 0, tags: this.cInput_Tags, header: this.cInput_Header,
-      setURL: null, cachedFilePath: null, position: null, rotation: null, scale: null,
-      stringParameters: null, floatParameters: null, availableImagesContent: null,
-      id: null, dateCreated: new Date().toString(), dateUpdated: new Date().toString(), creatorName: this.authService.user.email,
-      devDescription: "None", startingLocation: null, previewSprite: null
-    }
 
-    //TODO: Add content type with indices that point to (lm,cc)=>content
-    var lm: element_lessonModule | null;
-    if (this.lessonModules != null)
-      if (this.lessonModules[this.lmIndex] != null) {
-        lm = this.lessonModules[this.lmIndex];
-
-        if (this.lessonModules[this.lmIndex].contentClusters == null) {
-          this.lessonModules[this.lmIndex].contentClusters = [];
-        }
-
-        var db_cc: element_contentCluster[] | null;
-        if (this.lessonModules[this.lmIndex].contentClusters != null) {
-          db_cc = this.lessonModules[this.lmIndex].contentClusters;
+  async AddContent() {
 
 
 
-          if (db_cc != null) {
-            var db_content: element_content[] | null;
+    let url: string = "not set yet";
 
-            if (db_cc[this.ccIndex].content == null)
-              db_cc[this.ccIndex].content = [];
+    await this.uploadService.pushUpload(this.authService.user.uid, this.fileData).then((result) => {
+      url = result;
+      console.log(url);
 
-            if (db_cc[this.ccIndex].content != null) {
-              db_content = db_cc[this.ccIndex].content;
+      var content: element_content = {
+        title: this.cInput_Title, description: this.cInput_Description, getURL: url,
+        contentType: 0, tags: this.cInput_Tags, header: this.cInput_Header,
+        setURL: null, cachedFilePath: null, position: null, rotation: null, scale: null,
+        stringParameters: null, floatParameters: null, availableImagesContent: null,
+        id: null, dateCreated: new Date().toString(), dateUpdated: new Date().toString(), creatorName: this.authService.user.email,
+        devDescription: "None", startingLocation: null, previewSprite: null
+      }
+      // content.getURL = result;
 
-              if (db_content != null)
-                db_content.push(content);
-            }
+      //TODO: Add content type with indices that point to (lm,cc)=>content
+      var lm: element_lessonModule | null;
+      if (this.lessonModules != null)
+        if (this.lessonModules[this.lmIndex] != null) {
+          lm = this.lessonModules[this.lmIndex];
+
+          if (this.lessonModules[this.lmIndex].contentClusters == null) {
+            this.lessonModules[this.lmIndex].contentClusters = [];
           }
 
-        }
-      }
+          var db_cc: element_contentCluster[] | null;
+          if (this.lessonModules[this.lmIndex].contentClusters != null) {
+            db_cc = this.lessonModules[this.lmIndex].contentClusters;
 
-    this.cInput_Title = "";
-    this.cInput_Description = "";
-    this.cInput_GetURL = "";
-    this.cInput_Tags = "";
-    this.cInput_Header = "";
+
+
+            if (db_cc != null) {
+              var db_content: element_content[] | null;
+
+              if (db_cc[this.ccIndex].content == null)
+                db_cc[this.ccIndex].content = [];
+
+              if (db_cc[this.ccIndex].content != null) {
+                db_content = db_cc[this.ccIndex].content;
+
+                if (db_content != null)
+                  db_content.push(content);
+              }
+            }
+
+          }
+        }
+
+      this.cInput_Title = "";
+      this.cInput_Description = "";
+      this.cInput_GetURL = "";
+      this.cInput_Tags = "";
+      this.cInput_Header = "";
+    });
+
+
+
+
   }
 
   CloseContentEditorAndCancel() {
@@ -370,6 +388,46 @@ export class CreateComponent {
     this.cInput_Header = "";
 
     this.editing = false;
+  }
+
+
+
+
+
+
+
+
+
+
+
+  // upload
+
+
+  uploadForm: FormGroup = new FormGroup({
+    input_file: new FormControl()
+  });
+
+  fileData: File;
+
+  onFileSelected(event: any) {
+    if (event.target.files == null || event.target.files.length == 0) {
+      console.log("Could not upload file.");
+      return;
+    }
+
+    console.log(event.target.files);
+    let file: File = event.target.files[0];
+
+    this.fileData = file;
+  }
+
+  async Upload(): Promise<string | null> {
+    // if (event.target.file != null) {
+    console.log(this.uploadForm.value);
+    return await this.uploadService.pushUpload(this.authService.user.uid, this.fileData);
+
+    // }
+    // this.uploadService.pushUpload(this.input_fileToUpload);
   }
 
 }

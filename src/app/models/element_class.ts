@@ -25,5 +25,6 @@ export interface element_class {
     dateUpdated: string | null;
     author: string | null;
     uid: string | null;
+    jsonRepresentation: string;
 }
 

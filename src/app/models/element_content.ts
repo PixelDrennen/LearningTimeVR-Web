@@ -30,4 +30,5 @@ export interface element_content {
     header: string | null;
     startingLocation: metadata_location | null;
     previewSprite: metadata_sprite | null;
+    
 }

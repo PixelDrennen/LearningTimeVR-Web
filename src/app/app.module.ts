@@ -42,6 +42,8 @@ import { LessonmoduleModalComponent } from './modals/lessonmodule-modal/lessonmo
 import { MaterialModuleModule } from './material-module/material-module.module';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgbAlertModule, NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap';
+import { UploadListComponent } from './uploads/upload-list/upload-list.component';
+import { UploadFormComponent } from './uploads/upload-form/upload-form.component';
 
 
 @NgModule({
@@ -60,7 +62,9 @@ import { NgbAlertModule, NgbDatepickerModule } from '@ng-bootstrap/ng-bootstrap'
     ContentComponent,
     CreateComponent,
     LessonModuleListComponentComponent,
-    LessonmoduleModalComponent
+    LessonmoduleModalComponent,
+    UploadListComponent,
+    UploadFormComponent
   ],
   imports: [
     BrowserModule,
